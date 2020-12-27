@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import { connect, useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { getDataFilmAction } from '../../redux/action/QuanLiPhimAction';
+import { NavLink } from 'react-router-dom';
 
 export default function TrangChu(props) {
 
-
+    console.log("propsRoute", props);
     // useSelector là hooj reactredux cung cấp dùng để lấy state từ store về
     const mangPhim = useSelector(state => state.QuanLiPhimReducer.mangPhim)
     // const loadDataPhim = async ()=>{
@@ -33,9 +34,12 @@ export default function TrangChu(props) {
                 <div className="card">
                     <img className="card-img-top" src={phim.hinhAnh} alt />
                     <div className="card-body">
-        <h4 className="card-title">{phim.tenPhim}</h4>
+                        <h4 className="card-title">{phim.tenPhim}</h4>
                         <p className="card-text">{phim.moTa}</p>
                     </div>
+                    <NavLink to={`/chitietphim/${phim.maPhim}`} className='btn btn-danger'>
+                        Mua vé
+                    </NavLink>
                 </div>
 
             </div>

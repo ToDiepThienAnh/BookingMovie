@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
-import { useDispatch} from 'react-redux' // useDispatch là hook do react redux cung cấp tượng props.dispatch khi sử dụng connect
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux' // useDispatch là hook do react redux cung cấp tượng props.dispatch khi sử dụng connect
 import { dangNhapAction } from '../../redux/action/QuanLiNguoiDungAction';
 
 
 
-export default function DangNhap() {
+export default function DangNhap(props) {
     const dispatch = useDispatch()
     // useState là thư viện thay thế this.state trong RE class component
     const [state, setState] = useState({
@@ -12,19 +12,24 @@ export default function DangNhap() {
         matKhau: ''
     }) // useState nhận giá trị đầu vào là stateDefault
     console.log('state', state);
-    const handleChangeInput = (event) =>{
-        const {value, name} = event.target
-        console.log(name,value);
-        const newState = {...state, [name]:value}
+    const handleChangeInput = (event) => {
+        const { value, name } = event.target
+        console.log(name, value);
+        const newState = { ...state, [name]: value }
         setState(newState)
 
         // Gọi Api xác thực để đăng nhập
         // không cần dùng connect
-    
+
     }
-    const handleSubmit = (event)=>{
+    const handleSubmit = (event) => {
         event.preventDefault()
         dispatch(dangNhapAction(state))
+
+        // đúng thì chuyển hướng về trang chủ
+        // history có 2 thuộc tính: push thì có thể back về trang trc nhưng replace thì khonong, mục đích là để chuyển trang
+        // props.history.push('/trangchu')
+        // Sai ở lại vị trí cũ
     }
     return (
         <form className='container border px-0' onSubmit={handleSubmit}>
