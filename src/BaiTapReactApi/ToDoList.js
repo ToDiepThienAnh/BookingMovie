@@ -6,11 +6,10 @@ export default function ToDoList() {
 
 
 
-    const [toDoList, setToDoList] = useState({})
+    const [toDoList, setToDoList] = useState([])
 
     const [task, setTask] = useState({
         taskName: ""
-        // status: false
     })
     // let { taskName } = toDoList.Task
 
@@ -23,7 +22,7 @@ export default function ToDoList() {
         })
         // console.log("dataToDoList", dataToDoList);
         setToDoList(dataToDoList.data)
-        // console.log("Data list to do", dataToDoList.data);
+        console.log("Data list to do", dataToDoList.data);
         // console.log("status ToDolist", toDoList[0].status);
 
     }, [])
@@ -41,71 +40,100 @@ export default function ToDoList() {
         // console.log("Task Name ở State", task);
     }
 
-    // const renderListToDo = () => {
-    //     let newToDoList = toDoList?.filter(item => item.status === false)
-    //     return newToDoList.map((item, index) => {
-    //         return <li className='d-flex justify-content-between border p-3'>
-    //             <div>{item.taskName}</div>
-    //             <div>
-    //                 <div>
-    //                     <button className='bg-dark text-white mr-2'><i className="fa fa-edit" /></button>
-    //                     <button className='bg-dark text-white mr-2'><i className="fa fa-check" /></button>
-    //                     <button className='bg-dark text-white'> <i className="fa fa-trash-alt" /></button>
-    //                 </div>
+    let renderListToDo = () => {
+        let newToDoList = toDoList?.filter(item => item.status === false)
+        return newToDoList.map((item, index) => {
+            return <li className='d-flex justify-content-between border p-3' key={index}>
+                <div>{item.taskName}</div>
+                <div>
+                    <div>
+                        <button onClick={() => handleGetTaskByTaskName(item.taskName)} className='bg-dark text-white mr-2'><i className="fa fa-edit" /></button>
+                        <button onClick={() => handleDeleteTask(item.taskName)} className='bg-dark text-white mr-2'><i className="fa fa-check" /></button>
+                        <button onClick={() => handleRejectTask(item.taskName)} className='bg-dark text-white'> <i className="fa fa-trash-alt" /></button>
+                    </div>
 
-    //             </div>
-    //         </li>
-    //     })
+                </div>
+            </li>
+        })
 
-    // }
+    }
 
-    // const renderTaskComplete = () => {
-    //     let newTaskComplete = toDoList?.filter(item => item.status !== false)
-    //     return newTaskComplete.map((item, index) => {
-    //         return <li className='d-flex justify-content-between border p-3'>
-    //             <div>{item.taskName}</div>
-    //             <div>
-    //                 <div>
-    //                     <button onClick={handleGetTaskByTaskName(item.taskName)} className='bg-dark text-white mr-2'><i className="fa fa-edit" /></button>
-    //                     <button onClick className='bg-dark text-white mr-2'><i className="fa fa-check" /></button>
-    //                     <button onClick={handleDeleteTask(item.taskName)} className='bg-dark text-white'> <i className="fa fa-trash-alt" /></button>
-    //                 </div>
+    let renderTaskComplete = () => {
+        let newTaskComplete = toDoList?.filter(item => item.status !== false)
+        return newTaskComplete.map((item, index) => {
+            return <li className='d-flex justify-content-between border p-3' key={index}>
+                <div>{item.taskName}</div>
+                <div>
+                    <form>
 
-    //             </div>
-    //         </li>
-    //     })
-    // }
+                        <button onClick={() => handleRejectTask(item.taskName)} className='bg-dark text-white'> <i className="fa fa-trash-alt" /></button>
+                    </form>
+
+                </div>
+            </li>
+        })
+    }
 
     const handleAddTask = async (e) => {
-
-        // let addTask = await axios({
-        //     method: "POST",
-        //     url: "http://svcy.myclass.vn/api/ToDoList/AddTask",
-        //     data: task
-        // })
         console.log("Submit ", task);
+        let addTask = await axios({
+            method: "POST",
+            url: "http://svcy.myclass.vn/api/ToDoList/AddTask",
+            data: task
+        })
+        console.log("add Task", addTask);
+
+        setToDoList({
+            toDoList: [...toDoList, addTask.data]
+        })
+
+
     }
     console.log("Task trước khi thêm ", task)
-    const handleGetTaskByTaskName = (taskName) => {
-        alert(taskName)
+    let handleGetTaskByTaskName = async (taskName) => {
+        console.log("handleGetTaskByTaskName", taskName);
+        // const getTaskByTaskName = await axios({
+        //     method: "GET",
+        //     url: `http://svcy.myclass.vn/api/ToDoList/GetTask?taskName=${taskName}
+        //     `
+        // })
+
+        // setTask({
+        //     task: getTaskByTaskName.data
+        // })
     }
 
-    const handleDeleteTask = (taskName) => {
-        alert(taskName)
+    let handleDeleteTask = async (taskName) => {
+        console.log("handleDeleteTask", taskName);
+        // const deleteTask = await axios({
+        //     method: "DELETE",
+        //     url: `http://svcy.myclass.vn/api/ToDoList/deleteTask?taskName=${taskName}
+        //     `
+        // })
     }
 
-    const handleUpdateTask = () => {
-
+    let handleRejectTask = async (taskName) => {
+        console.log("handleRejectTask", taskName);
+        // const rejectTask = await axios({
+        //     method: "PUT",
+        //     url: `http://svcy.myclass.vn/api/ToDoList/rejectTask?taskName=${taskName}
+        //     `
+        // })
     }
 
-    const handleCheckDoneTask = () => {
-
+    let handleCheckDoneTask = async (taskName) => {
+        console.log("handleCheckDoneTask", taskName);
+        // const doneTask = await axios({
+        //     method: "PUT",
+        //     url: `http://svcy.myclass.vn/api/ToDoList/doneTask?taskName=${taskName}
+        //     `
+        // })
     }
 
 
     return (
 
-        <div div >
+        <div>
             <div className='border-bottom pb-5'>
                 <h3 className='text-white'>To Do list</h3>
                 <form>
@@ -113,7 +141,7 @@ export default function ToDoList() {
                     <div className=' d-flex bg-dark '>
                         <input onChange={handleChange} value={task.taskName} name='taskName' className='form-control w-25' type='text' />
                         <button type='button' onClick={handleAddTask} className='btn btn-secondary ml-2'>Add task</button>
-                        <button className='btn btn-secondary ml-2'>Update task</button>
+                        <button type='button' onClick={() => handleRejectTask(task.taskName)} className='btn btn-secondary ml-2'>Update task</button>
                     </div>
                 </form>
 
@@ -121,14 +149,14 @@ export default function ToDoList() {
             <div className='mt-2'>
                 <h3 className='text-white'>Task To Do</h3>
                 <ul style={{ listStyle: 'none' }} className='mx-0 pl-0'>
-                    {/* {renderListToDo()} */}
+                    {renderListToDo()}
                 </ul>
 
             </div>
             <div className='mt-2'>
                 <h3 className='text-white'>Task Completed</h3>
                 <ul style={{ listStyle: 'none' }} className='mx-0 pl-0'>
-                    {/* {renderTaskComplete()} */}
+                    {renderTaskComplete()}
                 </ul>
 
             </div>
