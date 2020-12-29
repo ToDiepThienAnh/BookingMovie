@@ -10,7 +10,10 @@ export default function ToDoList() {
 
     const [task, setTask] = useState({
         taskName: ""
+
     })
+
+    // const [taskEdit, setTaskEdit] = useState({})
     // let { taskName } = toDoList.Task
 
 
@@ -48,8 +51,8 @@ export default function ToDoList() {
                 <div>
                     <div>
                         <button onClick={() => handleGetTaskByTaskName(item.taskName)} className='bg-dark text-white mr-2'><i className="fa fa-edit" /></button>
-                        <button onClick={() => handleDeleteTask(item.taskName)} className='bg-dark text-white mr-2'><i className="fa fa-check" /></button>
-                        <button onClick={() => handleRejectTask(item.taskName)} className='bg-dark text-white'> <i className="fa fa-trash-alt" /></button>
+                        <button onClick={() => handleCheckDoneTask(item.taskName)} className='bg-dark text-white mr-2'><i className="fa fa-check" /></button>
+                        <button onClick={() => handleDeleteTask(item.taskName)} className='bg-dark text-white'> <i className="fa fa-trash-alt" /></button>
                     </div>
 
                 </div>
@@ -83,51 +86,56 @@ export default function ToDoList() {
         })
         console.log("add Task", addTask);
 
-        setToDoList({
-            toDoList: [...toDoList, addTask.data]
-        })
+        setTask({ ...task, taskName: "" });
 
 
     }
-    console.log("Task trước khi thêm ", task)
-    let handleGetTaskByTaskName = async (taskName) => {
+    // console.log("Task trước khi thêm ", task)
+    const handleGetTaskByTaskName = async (taskName) => {
         console.log("handleGetTaskByTaskName", taskName);
-        // const getTaskByTaskName = await axios({
-        //     method: "GET",
-        //     url: `http://svcy.myclass.vn/api/ToDoList/GetTask?taskName=${taskName}
-        //     `
-        // })
+        const getTaskByTaskName = await axios({
+            method: "GET",
+            url: `http://svcy.myclass.vn/api/ToDoList/GetTask?taskName=${taskName}
+            `
+        })
 
-        // setTask({
-        //     task: getTaskByTaskName.data
-        // })
+        let newTaskName = getTaskByTaskName.data.taskName
+        console.log("newTaskName khi get", newTaskName)
+        setTask({
+            task: { ...task, taskName: newTaskName }
+        })
+        console.log("Task sau khi get", task.taskName)
     }
 
     let handleDeleteTask = async (taskName) => {
         console.log("handleDeleteTask", taskName);
-        // const deleteTask = await axios({
-        //     method: "DELETE",
-        //     url: `http://svcy.myclass.vn/api/ToDoList/deleteTask?taskName=${taskName}
-        //     `
-        // })
+        const deleteTask = await axios({
+            method: "DELETE",
+            url: `http://svcy.myclass.vn/api/ToDoList/deleteTask?taskName=${taskName}
+            `
+        })
+        console.log("handleDeleteTask", deleteTask);
     }
 
     let handleRejectTask = async (taskName) => {
         console.log("handleRejectTask", taskName);
-        // const rejectTask = await axios({
-        //     method: "PUT",
-        //     url: `http://svcy.myclass.vn/api/ToDoList/rejectTask?taskName=${taskName}
-        //     `
-        // })
+        const rejectTask = await axios({
+            method: "PUT",
+            url: `http://svcy.myclass.vn/api/ToDoList/rejectTask?taskName=${taskName}
+            `
+        })
+        console.log("handleRejectTask", rejectTask);
     }
 
     let handleCheckDoneTask = async (taskName) => {
-        console.log("handleCheckDoneTask", taskName);
-        // const doneTask = await axios({
-        //     method: "PUT",
-        //     url: `http://svcy.myclass.vn/api/ToDoList/doneTask?taskName=${taskName}
-        //     `
-        // })
+        // console.log("handleCheckDoneTask", taskName);
+        const doneTask = await axios({
+            method: "PUT",
+            url: `http://svcy.myclass.vn/api/ToDoList/doneTask?taskName=${taskName}
+            `
+        })
+
+        console.log("handleCheckDoneTask", doneTask);
     }
 
 
