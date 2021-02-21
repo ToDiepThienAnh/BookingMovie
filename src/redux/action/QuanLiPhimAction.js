@@ -7,7 +7,7 @@ import { DOMAIN } from '../../util/setting'
 export const getDataFilmAction = () => {
     return async (dispatch) => {
         const res = await axios({
-            url: `${DOMAIN}/api/quanlyphim/laydanhsachphim?manhom=GP01`,
+            url: `https://elearning0706.cybersoft.edu.vn/api/QuanLyKhoaHoc/LayDanhSachKhoaHoc_PhanTrang?page=1&pageSize=8&MaNhom=GP01`,
             method: 'GET'
         })
 
@@ -22,5 +22,31 @@ export const getDataFilmAction = () => {
 export const createAction = (type, payload) => {
     return {
         type, payload
+    }
+}
+
+export const layThongTinPhongVeApiAction = (maLichChieu) => {
+
+    return async (dispatch) => {
+        // dispatch(action Khác)
+        // dispatch(action Khác)
+        // dispatch(action Khác)
+        // dispatch(action Khác)
+        // Gọi Api
+        try {
+            let result = await axios({
+                method: "GET",
+                url: `${DOMAIN}/api/QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=${maLichChieu}`
+            })
+            dispatch({
+                type: 'LAY_THONG_TIN_PHONG_VE',
+                thongTinPhongVe: result.data
+            })
+        } catch (err) {
+            // Nếu lỗi từ api
+            console.log(err.response?.data);
+            // Nếu lỗi trong hàm try gây ra
+            console.log(err);
+        }
     }
 }

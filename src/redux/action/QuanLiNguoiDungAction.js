@@ -8,7 +8,7 @@ export const dangNhapAction = (nguoiDung) => {
             const result = await axios({
                 url: `${DOMAIN}/api/quanlynguoidung/dangnhap`,
                 method: 'POST',
-                data: nguoiDung
+                data: nguoiDung,
             })
             // Đăng nhập thành công
             // lấy token lưu vào localStorage

@@ -10,6 +10,10 @@ import { HomeTemplate } from './templates/HomeTemplate';
 import { LoginTemplate } from './templates/LoginTemplate';
 import DatVe from './pages/DatVe/DatVe';
 import { createBrowserHistory } from 'history';
+import { BookingTemplate } from './templates/BookingTemplate';
+import { AdminTemplate } from './templates/AminTemplate';
+import QuanLiNguoiDung from './pages/QuanLiNguoiDung/QuanLiNguoiDung';
+import QuanLiPhim from './pages/QuanLyPhim/QuanLiPhim';
 
 
 export const history = createBrowserHistory()
@@ -39,9 +43,9 @@ function App() {
             Truyền các props của route vào component
           </div>
         }} /> */}
-        <Route path="/datve" render={(propsRoute) => {
-          return <DatVe {...propsRoute} />
-        }} />
+        <BookingTemplate path='/datve/:maLichChieu' Component={DatVe} />
+        <AdminTemplate path="/admin/quanlinguoidung" Component={QuanLiNguoiDung} />
+        <AdminTemplate path="/admin/quanliphim" Component={QuanLiPhim} />
         <HomeTemplate path='/chitietphim/:id' Component={ChiTietPhim} />
         <HomeTemplate path="/" Component={TrangChu} />
       </Switch>

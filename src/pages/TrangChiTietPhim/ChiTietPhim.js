@@ -84,9 +84,9 @@ export default function ChiTietPhim(props) {
                                     <p className='text-warning'>Thời gian chiếu</p>
                                     <div className='row'>
                                         {cumrap.lichChieuPhim?.slice(0, 12).map((lichChieu, index) => {
-                                            return <div className='col-3' key={index}>
+                                            return <NavLink to={`/datve/${lichChieu.maLichChieu}`} className='col-3' key={index}>
                                                 {moment(lichChieu.ngayChieuGioChieu).format("LT")}
-                                            </div>
+                                            </NavLink>
                                         })}
                                     </div>
                                 </div>
